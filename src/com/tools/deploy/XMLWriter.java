@@ -35,7 +35,7 @@ public class XMLWriter {
         Element p = document.createElement("Package");
         p.setAttribute("xmlns", "http://soap.sforce.com/2006/04/metadata");
         document.appendChild(p);
-
+ 
         for (MetaObject m : mlist) {
         	Element t = document.createElement("types");
         	for (String str : m.getElements()) {
@@ -51,7 +51,8 @@ public class XMLWriter {
         
         Element v = document.createElement("version");
         v.appendChild(document.createTextNode(Const.VERSION_API));
-        p.appendChild(v);        
+        p.appendChild(v);
+        
 
         // XMLファイルの作成
         File file = new File(path + Const.MANIFEST_FILE);
@@ -63,8 +64,7 @@ public class XMLWriter {
         // Transformerインスタンスの生成
         Transformer transformer = null;
         try {
-             TransformerFactory transformerFactory = TransformerFactory
-                       .newInstance();
+             TransformerFactory transformerFactory = TransformerFactory.newInstance();
              transformer = transformerFactory.newTransformer();
         } catch (TransformerConfigurationException e) {
              e.printStackTrace();
@@ -78,9 +78,9 @@ public class XMLWriter {
         transformer.setOutputProperty("{http://xml.apache.org/xslt}indent-amount","2");
 
         // XMLファイルの作成
+        System.out.println("Manifest file create..."+ transformer + ":" + document + ":" + file);
         try {
-             transformer.transform(new DOMSource(document), new StreamResult(
-                       file));
+             transformer.transform(new DOMSource(document), new StreamResult(file));
         } catch (TransformerException e) {
              e.printStackTrace();
              return false;

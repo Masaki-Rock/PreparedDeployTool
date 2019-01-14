@@ -16,12 +16,13 @@ public class MetaObject {
 	public void setName(String name) {
 		
 		// 変更箇所
-		if (Const.META_DIR_APEXCLASS.equals(name)) {
-			this.name = Const.META_NAME_APEXCLASS;
+		this.name = "";
+		for (int i = 0; i < Const.META_NAME.length; i++) {
+			if (Const.META_NAME[i][1].equals(name)) {
+				this.name = Const.META_NAME[i][0];
+			}
 		}
-		if (Const.META_DIR_CUSTOMOBJECT.equals(name)) {
-			this.name = Const.META_NAME_CUSTOMOBJECT;
-		}
+		System.out.println("Metadata type name is..." + this.name + " : " + name);
 	}
 
 	public Set<String> getElements() {
