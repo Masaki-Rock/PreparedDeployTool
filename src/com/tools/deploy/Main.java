@@ -37,10 +37,10 @@ public class Main {
 		if (args.length < 2) return;
 		String srcpath = Const.SRC_DIR ;
 		if (args.length == 3) {
-			srcpath = "/" + args[2];
+			srcpath = Util.getSep() + args[2];
 		}
 		Date fdate = new Date();
-//		fdate.setDate(13);
+		//fdate.setDate(11);
 		fdate.setHours(Integer.parseInt(args[0]));
 		fdate.setMinutes(Integer.parseInt(args[1]));
 		Long flong = fdate.getTime();
@@ -92,7 +92,7 @@ public class Main {
             m.setName(f.getName());
         	
             // デプロイ先へフォルダ作成
-            String mdirStr = Const.DEPLOY_PATH + "/" + f.getName();
+            String mdirStr = Const.DEPLOY_PATH + Util.getSep() + f.getName();
             File mdir = new File(mdirStr);
             mdir.mkdir();
             
@@ -121,7 +121,7 @@ public class Main {
 			// サブフォルダ用
         	if (cf.isDirectory()) {
         		System.out.println(">> directory is " + cf.getName() );
-        		tdirStr =  tdirStr + "/" + cf.getName();
+        		tdirStr =  tdirStr + Util.getSep() + cf.getName();
                 File mdir = new File(tdirStr);
                 mdir.mkdir();
         		m = copydir(cf, m, flong, tdirStr);
@@ -129,7 +129,7 @@ public class Main {
         	}
         	
     		if (flong >= cf.lastModified()) continue;
-    		System.out.println(">> The deploy target file is " + cf.getName() + " < last modify date : " + sdf.format(f.lastModified()) + " >");
+    		System.out.println(">> The deploy target file is " + cf.getName() + " < last modify date : " + sdf.format(cf.lastModified()) + " >");
     		
     		// メンバーセット
     		m.addMember(cf.getAbsolutePath());

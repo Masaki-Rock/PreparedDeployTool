@@ -47,16 +47,41 @@ public class MetaObject {
 //		if (ename.matches(Const.IGNORE_FILE_APEX)) return;
 		
 		// マニュフェスト用加工処理
-		String tname = ename.replaceFirst(Const.SRC_PATH + "/" + this.dirname + "/", "");
-		if (Const.META_NAME_APEX_TRIGGER[0].equals(this.name)
-				|| Const.META_NAME_APEX_CLASS[0].equals(this.name)) {
+		String tname = ename.replace(Const.SRC_PATH + Util.getSep() + this.dirname + Util.getSep(), "");
+		if (Const.META_NAME_APEX_CLASS.equals(this.name)) {
 			this.members.add(Util.getNameWithoutExtension(Util.getNameWithoutExtension(tname)));
-			this.memberNames.add(ename);
+			String cmpName = ename;
+			for (String orign : Const.APEX_CLASS_EXTENSIONS) {
+				cmpName = cmpName.replaceFirst(orign, "");
+			}
+			for (String orign : Const.APEX_CLASS_EXTENSIONS) {
+				orign = orign.replaceAll("[\\[\\]'$']", "");
+				this.memberNames.add(cmpName + orign);
+			}
 			return;
 		}
-		if (Const.META_NAME_LIGHTNING_COMPONENT[0].equals(this.name)) {
+		if (Const.META_NAME_APEX_TRIGGER.equals(this.name)) {
+			this.members.add(Util.getNameWithoutExtension(Util.getNameWithoutExtension(tname)));
+			String cmpName = ename;
+			for (String orign : Const.APEX_TRIGGER_EXTENSIONS) {
+				cmpName = cmpName.replaceFirst(orign, "");
+			}
+			for (String orign : Const.APEX_TRIGGER_EXTENSIONS) {
+				orign = orign.replaceAll("[\\[\\]'$']", "");
+				this.memberNames.add(cmpName + orign);
+			}
+			return;
+		}
+		if (Const.META_NAME_LIGHTNING_COMPONENT.equals(this.name)) {
 			this.members.add(Util.getDirName(tname));
-			this.memberNames.add(ename);
+			String cmpName = ename;
+			for (String orign : Const.LIGHTNING_COMPONENT_EXTENSIONS) {
+				cmpName = cmpName.replaceFirst(orign, "");
+			}
+			for (String orign : Const.LIGHTNING_COMPONENT_EXTENSIONS) {
+				orign = orign.replaceAll("[\\[\\]'$']", "");
+				this.memberNames.add(cmpName + orign);
+			}
 			return;
 		}
 		this.members.add(Util.getNameWithoutExtension(tname));

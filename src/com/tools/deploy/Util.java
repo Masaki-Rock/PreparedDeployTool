@@ -6,7 +6,6 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.channels.FileChannel;
-import java.text.SimpleDateFormat;
 
 public class Util {
 
@@ -27,7 +26,7 @@ public class Util {
 		  if (index != -1) {
 		    return fileName.substring(0, index);
 		  }
-		  return "";
+		  return fileName;
 	}
 	
 	/**
@@ -37,7 +36,7 @@ public class Util {
 	 */
 	public static String getDirName(String fileName) {
 
-		  int index = fileName.lastIndexOf('/');
+		  int index = fileName.lastIndexOf(getSep());
 		  if (index != -1) {
 		    return fileName.substring(0, index);
 		  }
@@ -46,15 +45,16 @@ public class Util {
 
 	public static void copyfile(File source, String targetdir) {
 
-		File target = new File(targetdir +  "/" + source.getName());
+		File target = new File(targetdir +  getSep() + source.getName());
 		copyfile(source, target);
 	}
 	
 	public static void copyfile(String sourcePath) {
 		
-		String targetPath = sourcePath.replaceFirst(Const.SRC_PATH, Const.DEPLOY_PATH);
+		String targetPath = sourcePath.replace(Const.SRC_PATH, Const.DEPLOY_PATH);
 		File source = new File(sourcePath);
 		File target = new File(targetPath);
+		if (!source.exists()) return;
 		copyfile(source, target);
 	}
 
@@ -92,7 +92,7 @@ public class Util {
 	 */
 	public static Boolean isDeployDir(File dir, Long flong) {
 
-        SimpleDateFormat sdf = new SimpleDateFormat(Const.TIMESTAMP_FORMAT);
+//        SimpleDateFormat sdf = new SimpleDateFormat(Const.TIMESTAMP_FORMAT);
 		
 		for (File f : dir.listFiles()) {
     		// System.out.println(">> The compare " + f.getName() +  " is " + sdf.format(f.lastModified()));
@@ -122,5 +122,19 @@ public class Util {
         	f.delete();
         }
         dir.delete();
+	}
+	
+	public static String getSep() {
+		if (Const.OS_NAME.startsWith("windows")) {
+			return "\\";
+		}
+		return "/";
+	}
+	
+	public static String convertRegex(String val) {
+		if (Const.OS_NAME.startsWith("windows")) {
+			return val.replace("\\", "\\\\");
+		}
+		return val;
 	}
 }

@@ -78,7 +78,6 @@ public class XMLWriter {
         transformer.setOutputProperty("{http://xml.apache.org/xslt}indent-amount","2");
 
         // XMLファイルの作成
-        System.out.println("Manifest file create..."+ transformer + ":" + document + ":" + file);
         try {
              transformer.transform(new DOMSource(document), new StreamResult(file));
         } catch (TransformerException e) {
