@@ -10,6 +10,8 @@ public class Const {
 	
 	public static String CURRENT_PATH = new File("").getAbsolutePath();
 	
+	public static String SRC_PATH = "";
+	
 	public static String DEPLOY_PATH = Const.CURRENT_PATH + Const.DEPLOY_DIR;
 	
 	public static String VERSION_API = "44.0";
@@ -19,8 +21,13 @@ public class Const {
 	public static String[][] META_NAME = new String[][] {{"ApexClass","classes"},{"ApexComponent",""}
 		,{"ApexPage","pages"},{"ApexTrigger","triggers"},{"AppMenu","appMenus"},{"ApprovalProcess",""}
 		,{"AuraDefinitionBundle","aura"},{"AuthProvider",""},{"CallCenter",""},{"Community","communities"}
-		,{"ConnectedApp","connectedApps"},{"CustomApplication","applications"},{"CustomApplicationComponent",""}
-		,{"CustomLabels","labels"},{"CustomMetadata",""},{"CustomObject","objects"},{"CustomObjectTranslation",""}
+		,{"ConnectedApp","connectedApps"}
+		,{"CustomApplication","applications"}
+		,{"CustomApplicationComponent",""}
+		,{"CustomLabels","labels"}
+		,{"CustomMetadata","customMetadata"}
+		,{"CustomObject","objects"}
+		,{"CustomObjectTranslation","objectTranslations"}
 		,{"CustomPageWebLink",""},{"CustomPermission",""},{"CustomTab","tabs"},{"Dashboard","dashboards"}
 		,{"DataCategoryGroup",""},{"Document","documents"},{"DuplicateRule","duplicateRules"}
 		,{"FlexiPage","flexipages"},{"Flow","flows"},{"Group","groups"},{"HomePageComponent","homePageLayouts"}

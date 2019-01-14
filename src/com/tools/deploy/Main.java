@@ -40,22 +40,23 @@ public class Main {
 			srcpath = "/" + args[2];
 		}
 		Date fdate = new Date();
+//		fdate.setDate(13);
 		fdate.setHours(Integer.parseInt(args[0]));
 		fdate.setMinutes(Integer.parseInt(args[1]));
 		Long flong = fdate.getTime();
 		System.out.println("The start date of the compare date is " + sdf.format(flong));
 		
-		// ワークディレクトリ
-        String srcPath = new File("").getAbsolutePath() + srcpath;
-        System.out.println("The SRC directory Path is " + srcPath);
+		// ワークディレクトリ初期化
+        Const.SRC_PATH = Const.CURRENT_PATH + srcpath;
+        System.out.println("The SRC directory Path is " + Const.SRC_PATH);
         File deploydir = new File(Const.DEPLOY_PATH);
-        delDir(deploydir);
+        Util.delDir(deploydir);
         deploydir.mkdir();
         System.out.println("The Deploy derectory is deleted...");
         
         //(3) 対象ファイルのファイルオブジェクト生成
         List<MetaObject> mlist = new ArrayList<MetaObject>();
-        File rootdir = new File(srcPath);
+        File rootdir = new File(Const.SRC_PATH);
         if (!rootdir.isDirectory()) return;
         copyMetadir(rootdir, mlist, flong);
 
@@ -72,21 +73,13 @@ public class Main {
 		System.out.println("Finish Deploy Tool...");
 	}
 	
-	public static void delDir(File dir) {
-		
-		if (!dir.exists()) return;
-        for (File f : dir.listFiles()) {
-        	
-        	// ディレクトリ判断
-        	if (f.isDirectory()) {
-        		delDir(f);
-        		continue;
-        	}
-        	f.delete();
-        }
-        dir.delete();
-	}
-
+	/**
+	 * デプロイディレクトリへデプロイ対象コピー処理
+	 * @param dir ディレクトリ
+	 * @param mlist マニュフェスト作成用情報
+	 * @param flong 日付比較ロング値
+	 * @return
+	 */
 	public static List<MetaObject> copyMetadir(File dir, List<MetaObject> mlist, Long flong) {
 
         for (File f : dir.listFiles()) {
@@ -108,6 +101,13 @@ public class Main {
 
         	mlist.add(m);
         }
+        
+        for (MetaObject m : mlist) {
+        	for (String path : m.getMemberNames()) {
+        		Util.copyfile(path);
+        	}
+        }
+        
 		return mlist;
 	}
 	
@@ -116,13 +116,15 @@ public class Main {
 		SimpleDateFormat sdf = new SimpleDateFormat(Const.TIMESTAMP_FORMAT);
 		
 		for (File cf : f.listFiles()) {
-    		 
+    		
+			String tdirStr = mdirStr;
+			// サブフォルダ用
         	if (cf.isDirectory()) {
         		System.out.println(">> directory is " + cf.getName() );
-        		mdirStr =  mdirStr + "/" + cf.getName();
-                File mdir = new File(mdirStr);
+        		tdirStr =  tdirStr + "/" + cf.getName();
+                File mdir = new File(tdirStr);
                 mdir.mkdir();
-        		m = copydir(cf, m, flong, mdirStr);
+        		m = copydir(cf, m, flong, tdirStr);
         		continue;
         	}
         	
@@ -130,10 +132,7 @@ public class Main {
     		System.out.println(">> The deploy target file is " + cf.getName() + " < last modify date : " + sdf.format(f.lastModified()) + " >");
     		
     		// メンバーセット
-    		m.addElement(cf.getName());
-    		
-    		// ファイルコピー
-    		Util.copyfile(cf, mdirStr);
+    		m.addMember(cf.getAbsolutePath());
         }
     	return m;
 	}
