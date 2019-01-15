@@ -28,8 +28,8 @@ public class Main {
 		System.out.println("-- Option help -------");
 		System.out.println("    Arg0 is Hour[0-24].");
 		System.out.println("    Arg1 is Minites[0-59].");
-		System.out.println("    Arg2 is SRC Folder(Not Mandatary).");
-		System.out.println("    If Arrangement is Nothing, It is compare by Manifestfile's lastModified date.");
+		System.out.println("    Arg2 is SRC Folder (default setting is direct src folder of current directory).");
+		System.out.println("    If the argument is not setting, It is compare by Manifestfile's lastModified date.");
 		System.out.println("----------------------");
 				
 		// ワークディレクトリ初期化

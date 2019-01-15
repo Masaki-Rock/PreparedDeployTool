@@ -138,7 +138,7 @@ public class Const {
 	
 	public static String[] APEX_TRIGGER_EXTENSIONS = new String[] {"[.]trigger$","[.]trigger-meta[.]xml$"};
 	
-	public static String[] APEX_STATICSOURCE_EXTENSIONS = new String[] {"[.]staticsource$","[.]staticsource-meta[.]xml$"};
+	public static String[] APEX_STATICSOURCE_EXTENSIONS = new String[] {"[.]resource$","[.]resource-meta[.]xml$"};
 	
 	public static String[] LIGHTNING_COMPONENT_EXTENSIONS = new String[] {"[.]cmp$","[.]cmp-meta[.]xml$","[.]css$","[.]design$","Controller[.]js$", "Helper[.]js$"};
 	
