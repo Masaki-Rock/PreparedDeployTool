@@ -55,7 +55,7 @@ public class MetaObject {
 				cmpName = cmpName.replaceFirst(orign, "");
 			}
 			for (String orign : Const.APEX_CLASS_EXTENSIONS) {
-				orign = orign.replaceAll("[\\[\\]'$']", "");
+				orign = orign.replaceAll(Const.EXTENTIONS_REGREX, "");
 				this.memberNames.add(cmpName + orign);
 			}
 			return;
@@ -67,7 +67,7 @@ public class MetaObject {
 				cmpName = cmpName.replaceFirst(orign, "");
 			}
 			for (String orign : Const.APEX_TRIGGER_EXTENSIONS) {
-				orign = orign.replaceAll("[\\[\\]'$']", "");
+				orign = orign.replaceAll(Const.EXTENTIONS_REGREX, "");
 				this.memberNames.add(cmpName + orign);
 			}
 			return;
@@ -79,6 +79,18 @@ public class MetaObject {
 				cmpName = cmpName.replaceFirst(orign, "");
 			}
 			for (String orign : Const.LIGHTNING_COMPONENT_EXTENSIONS) {
+				orign = orign.replaceAll(Const.EXTENTIONS_REGREX, "");
+				this.memberNames.add(cmpName + orign);
+			}
+			return;
+		}
+		if (Const.META_NAME_STATICSOURCE.equals(this.name)) {
+			this.members.add(Util.getNameWithoutExtension(Util.getNameWithoutExtension(tname)));
+			String cmpName = ename;
+			for (String orign : Const.APEX_STATICSOURCE_EXTENSIONS) {
+				cmpName = cmpName.replaceFirst(orign, "");
+			}
+			for (String orign : Const.APEX_STATICSOURCE_EXTENSIONS) {
 				orign = orign.replaceAll("[\\[\\]'$']", "");
 				this.memberNames.add(cmpName + orign);
 			}

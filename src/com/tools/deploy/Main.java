@@ -3,6 +3,7 @@ package com.tools.deploy;
 import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -24,35 +25,36 @@ public class Main {
 		System.out.println("Start Deploy Tool...");
 
 		//　入力情報セット
-		if (args.length == 0) {
-			System.out.println("-- Option help -------");
-			System.out.println("    Arg0 is Hour[0-24].");
-			System.out.println("    Arg1 is Minites[0-59].");
-			System.out.println("    Arg2 is SRC Folder(Not Mandatary).");
-			System.out.println("----------------------");
-			return;
-		}
+		System.out.println("-- Option help -------");
+		System.out.println("    Arg0 is Hour[0-24].");
+		System.out.println("    Arg1 is Minites[0-59].");
+		System.out.println("    Arg2 is SRC Folder(Not Mandatary).");
+		System.out.println("    If Arrangement is Nothing, It is compare by Manifestfile's lastModified date.");
+		System.out.println("----------------------");
 				
-		//　入力情報セット
-		if (args.length < 2) return;
+		// ワークディレクトリ初期化
 		String srcpath = Const.SRC_DIR ;
 		if (args.length == 3) {
 			srcpath = Util.getSep() + args[2];
 		}
-		Date fdate = new Date();
-		//fdate.setDate(11);
-		fdate.setHours(Integer.parseInt(args[0]));
-		fdate.setMinutes(Integer.parseInt(args[1]));
-		Long flong = fdate.getTime();
-		System.out.println("The start date of the compare date is " + sdf.format(flong));
-		
-		// ワークディレクトリ初期化
         Const.SRC_PATH = Const.CURRENT_PATH + srcpath;
         System.out.println("The SRC directory Path is " + Const.SRC_PATH);
         File deploydir = new File(Const.DEPLOY_PATH);
         Util.delDir(deploydir);
         deploydir.mkdir();
         System.out.println("The Deploy derectory is deleted...");
+        
+        // 比較日付初期化
+        File manifest = new File(Const.SRC_PATH + Const.MANIFEST_FILE);
+        Long flong = manifest.lastModified();
+        if (args.length >= 2) {
+        	Calendar cl = Calendar.getInstance();
+        	cl.set(Calendar.HOUR, Integer.parseInt(args[0]));
+        	cl.set(Calendar.MINUTE, Integer.parseInt(args[1]));
+    		flong = cl.getTimeInMillis();
+        }
+        
+		System.out.println("The start date of the compare date is " + sdf.format(flong));
         
         //(3) 対象ファイルのファイルオブジェクト生成
         List<MetaObject> mlist = new ArrayList<MetaObject>();

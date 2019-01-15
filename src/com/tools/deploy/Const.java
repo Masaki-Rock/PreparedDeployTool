@@ -18,7 +18,7 @@ public class Const {
 	
 	public static final String VERSION_API = "44.0";
 
-	public static String MANIFEST_FILE = "/package.xml";
+	public static String MANIFEST_FILE = Util.getSep() + "package.xml";
 
 	public static String[][] META_NAME = new String[][] {
 		{"ApexClass","classes"},{"ApexComponent",""}
@@ -138,9 +138,13 @@ public class Const {
 	
 	public static String[] APEX_TRIGGER_EXTENSIONS = new String[] {"[.]trigger$","[.]trigger-meta[.]xml$"};
 	
+	public static String[] APEX_STATICSOURCE_EXTENSIONS = new String[] {"[.]staticsource$","[.]staticsource-meta[.]xml$"};
+	
 	public static String[] LIGHTNING_COMPONENT_EXTENSIONS = new String[] {"[.]cmp$","[.]cmp-meta[.]xml$","[.]css$","[.]design$","Controller[.]js$", "Helper[.]js$"};
 	
 	public static String IGNORE_FILE_APEX = ".*cls-meta.xml";
 	
 	public static String TIMESTAMP_FORMAT = "yyyy/MM/dd HH:mm:ss";
+	
+	public static String EXTENTIONS_REGREX= "[\\[\\]'$']";
 }
