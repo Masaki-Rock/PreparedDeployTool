@@ -109,7 +109,7 @@ public class MetaObject {
 			return;
 		}
 		if (Const.META_NAME_REPORT.equals(this.name) || Const.META_NAME_DASHBOARD.equals(this.name)) {
-			this.members.add(Util.getNameWithoutExtension(tname.replaceFirst("\\", "/")));
+			this.members.add(Util.getNameWithoutExtension(tname.replace("\\", "/")));
 			this.memberNames.add(ename);
 			return;
 		}
