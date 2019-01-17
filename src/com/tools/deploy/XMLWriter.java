@@ -38,6 +38,7 @@ public class XMLWriter {
  
         for (MetaObject m : mlist) {
         	Element t = document.createElement("types");
+//        	if (m.getMembers() == null) continue;
         	for (String str : m.getMembers()) {
         		Element mem = document.createElement("members");
                 mem.appendChild(document.createTextNode(str));

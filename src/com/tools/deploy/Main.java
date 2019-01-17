@@ -4,8 +4,8 @@ import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
+import java.util.TimeZone;
 
 /**
  * 実行クラス
@@ -17,7 +17,6 @@ public class Main {
 	 * 実行メソット
 	 * @param args 引数
 	 */
-	@SuppressWarnings("deprecation")
 	public static void main(String[] args) {
 		
         SimpleDateFormat sdf = new SimpleDateFormat(Const.TIMESTAMP_FORMAT);
@@ -28,7 +27,8 @@ public class Main {
 		System.out.println("-- Option help -------");
 		System.out.println("    Arg0 is Hour[0-24].");
 		System.out.println("    Arg1 is Minites[0-59].");
-		System.out.println("    Arg2 is SRC Folder (default setting is direct src folder of current directory).");
+		System.out.println("    Arg2 is Second[0-59].");
+		System.out.println("    Arg3 is SRC Folder (default setting is direct src folder of current directory).");
 		System.out.println("    If the argument is not setting, It is compare by Manifestfile's lastModified date.");
 		System.out.println("----------------------");
 				
@@ -49,7 +49,10 @@ public class Main {
         Long flong = manifest.lastModified();
         if (args.length >= 2) {
         	Calendar cl = Calendar.getInstance();
-        	cl.set(Calendar.HOUR, Integer.parseInt(args[0]));
+        	TimeZone tz = TimeZone.getTimeZone("Asia/Tokyo");
+        	cl.setTimeZone(tz);
+        	cl.set(Calendar.DATE, 16);
+        	cl.set(Calendar.HOUR_OF_DAY, Integer.parseInt(args[0]));
         	cl.set(Calendar.MINUTE, Integer.parseInt(args[1]));
     		flong = cl.getTimeInMillis();
         }
@@ -105,7 +108,10 @@ public class Main {
         }
         
         for (MetaObject m : mlist) {
+//        	System.out.println(">> Copy file is " + m.getName() + " : " + m.getMemberNames());
+//        	if (m.getMemberNames() == null) continue;
         	for (String path : m.getMemberNames()) {
+     
         		Util.copyfile(path);
         	}
         }
@@ -120,6 +126,7 @@ public class Main {
 		for (File cf : f.listFiles()) {
     		
 			String tdirStr = mdirStr;
+
 			// サブフォルダ用
         	if (cf.isDirectory()) {
         		System.out.println(">> directory is " + cf.getName() );
@@ -130,7 +137,7 @@ public class Main {
         		continue;
         	}
         	
-    		if (flong >= cf.lastModified()) continue;
+    		if (!Util.isChangedFile(cf, flong)) continue;
     		System.out.println(">> The deploy target file is " + cf.getName() + " < last modify date : " + sdf.format(cf.lastModified()) + " >");
     		
     		// メンバーセット

@@ -6,6 +6,7 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.channels.FileChannel;
+import java.text.SimpleDateFormat;
 
 public class Util {
 
@@ -92,16 +93,26 @@ public class Util {
 	 */
 	public static Boolean isDeployDir(File dir, Long flong) {
 
-//        SimpleDateFormat sdf = new SimpleDateFormat(Const.TIMESTAMP_FORMAT);
+        SimpleDateFormat sdf = new SimpleDateFormat(Const.TIMESTAMP_FORMAT);
 		
 		for (File f : dir.listFiles()) {
-    		// System.out.println(">> The compare " + f.getName() +  " is " + sdf.format(f.lastModified()));
-			// System.out.println(">> The deploy files is existed ... ");
+    		
+			// System.out.println(">> The compare " + f.getName() +  " is " + sdf.format(f.lastModified()) + " : " + sdf.format(flong));
 			if (f.isDirectory() && isDeployDir(f, flong)) return true;
-    		if ((!f.isDirectory()) && flong < f.lastModified()) return true;
+    		if ((!f.isDirectory()) && isChangedFile(f, flong)) {
+    			// System.out.println(">> The deploy files is existed ... ");
+    			return true;
+    		}
     		
         }
 		// System.out.println(">> The deploy files is not existed... ");
+		return false;
+	}
+	
+	public static Boolean isChangedFile(File f, Long key) {
+		Long from = key - Long.parseLong("30000");
+		Long to = key + Long.parseLong("30000");
+		if (from > f.lastModified() || to < f.lastModified()) return true;
 		return false;
 	}
 	

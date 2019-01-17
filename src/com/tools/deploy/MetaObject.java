@@ -43,8 +43,8 @@ public class MetaObject {
 			this.members = new HashSet<String>();
 			this.memberNames = new HashSet<String>();
 		}
-		// 除外ファイル名
-//		if (ename.matches(Const.IGNORE_FILE_APEX)) return;
+		// Ignore File
+		if (ename.matches(Const.IGNORE_FILE)) return;
 		
 		// マニュフェスト用加工処理
 		String tname = ename.replace(Const.SRC_PATH + Util.getSep() + this.dirname + Util.getSep(), "");
@@ -91,11 +91,29 @@ public class MetaObject {
 				cmpName = cmpName.replaceFirst(orign, "");
 			}
 			for (String orign : Const.APEX_STATICSOURCE_EXTENSIONS) {
-				orign = orign.replaceAll("[\\[\\]'$']", "");
+				orign = orign.replaceAll(Const.EXTENTIONS_REGREX, "");
 				this.memberNames.add(cmpName + orign);
 			}
 			return;
 		}
+		if (Const.META_NAME_STATICSOURCE.equals(this.name)) {
+			this.members.add(Util.getNameWithoutExtension(Util.getNameWithoutExtension(tname)));
+			String cmpName = ename;
+			for (String orign : Const.APEX_STATICSOURCE_EXTENSIONS) {
+				cmpName = cmpName.replaceFirst(orign, "");
+			}
+			for (String orign : Const.APEX_STATICSOURCE_EXTENSIONS) {
+				orign = orign.replaceAll(Const.EXTENTIONS_REGREX, "");
+				this.memberNames.add(cmpName + orign);
+			}
+			return;
+		}
+		if (Const.META_NAME_REPORT.equals(this.name) || Const.META_NAME_DASHBOARD.equals(this.name)) {
+			this.members.add(Util.getNameWithoutExtension(tname.replaceFirst("\\", "/")));
+			this.memberNames.add(ename);
+			return;
+		}
+		// CustomMetadata, QuickAction
 		this.members.add(Util.getNameWithoutExtension(tname));
 		this.memberNames.add(ename);
 	}
