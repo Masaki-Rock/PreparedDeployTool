@@ -1,6 +1,9 @@
 package com.tools.deploy;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import javax.xml.parsers.DocumentBuilder;
@@ -38,8 +41,9 @@ public class XMLWriter {
  
         for (MetaObject m : mlist) {
         	Element t = document.createElement("types");
-//        	if (m.getMembers() == null) continue;
-        	for (String str : m.getMembers()) {
+        	List<String> sl = new ArrayList<>(m.getMembers());
+    	    Collections.sort(sl);
+        	for (String str : sl) {
         		Element mem = document.createElement("members");
                 mem.appendChild(document.createTextNode(str));
                 t.appendChild(mem);

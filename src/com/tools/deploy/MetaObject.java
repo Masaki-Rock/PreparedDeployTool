@@ -109,7 +109,12 @@ public class MetaObject {
 			return;
 		}
 		if (Const.META_NAME_REPORT.equals(this.name) || Const.META_NAME_DASHBOARD.equals(this.name)) {
+			// Ignore File
+			if (ename.matches(Const.IGNORE_REPORT_FILE)) return;
 			this.members.add(Util.getNameWithoutExtension(tname.replace("\\", "/")));
+			this.members.add(Util.getDirName(tname));
+			String folderxml = Const.SRC_PATH + Util.getSep() + this.dirname + Util.getSep() + Util.getDirName(tname) + "-meta.xml";
+			this.memberNames.add(folderxml);
 			this.memberNames.add(ename);
 			return;
 		}

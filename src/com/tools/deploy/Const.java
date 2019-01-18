@@ -142,7 +142,9 @@ public class Const {
 	
 	public static String[] LIGHTNING_COMPONENT_EXTENSIONS = new String[] {"[.]cmp$","[.]cmp-meta[.]xml$","[.]css$","[.]design$","Controller[.]js$", "Helper[.]js$"};
 	
-	public static String IGNORE_FILE = "[.]bak$";
+	public static String IGNORE_FILE = ".*[.]bak$";
+	
+	public static String IGNORE_REPORT_FILE = ".*-meta[.]xml$";
 	
 	public static String TIMESTAMP_FORMAT = "yyyy/MM/dd HH:mm:ss";
 	
