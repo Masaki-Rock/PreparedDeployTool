@@ -108,6 +108,18 @@ public class MetaObject {
 			}
 			return;
 		}
+		if (Const.META_NAME_APEX_PAGE.equals(this.name)) {
+			this.members.add(Util.getNameWithoutExtension(Util.getNameWithoutExtension(tname)));
+			String cmpName = ename;
+			for (String orign : Const.APEX_PAGES_EXTENSIONS) {
+				cmpName = cmpName.replaceFirst(orign, "");
+			}
+			for (String orign : Const.APEX_PAGES_EXTENSIONS) {
+				orign = orign.replaceAll(Const.EXTENTIONS_REGREX, "");
+				this.memberNames.add(cmpName + orign);
+			}
+			return;
+		}
 		if (Const.META_NAME_REPORT.equals(this.name) || Const.META_NAME_DASHBOARD.equals(this.name)) {
 			// Ignore File
 			if (ename.matches(Const.IGNORE_REPORT_FILE)) return;
@@ -118,8 +130,12 @@ public class MetaObject {
 			this.memberNames.add(ename);
 			return;
 		}
-		// CustomMetadata, QuickAction
-		this.members.add(Util.getNameWithoutExtension(tname));
+		if (Const.META_NAME_CUSTOM_METADATA.equals(this.name) || Const.META_NAME_QUICK_ACTION.equals(this.name)) {
+			this.members.add(Util.getNameWithoutExtension(tname));
+			this.memberNames.add(ename);
+			return;
+		}
+		this.members.add(Util.getNameWithoutExtension(Util.getNameWithoutExtension(tname)));
 		this.memberNames.add(ename);
 	}
 }

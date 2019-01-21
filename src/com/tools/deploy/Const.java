@@ -136,6 +136,8 @@ public class Const {
 	
 	public static String[] APEX_CLASS_EXTENSIONS = new String[] {"[.]cls$","[.]cls-meta[.]xml$"};
 	
+	public static String[] APEX_PAGES_EXTENSIONS = new String[] {"[.]page$","[.]page-meta[.]xml$"};
+	
 	public static String[] APEX_TRIGGER_EXTENSIONS = new String[] {"[.]trigger$","[.]trigger-meta[.]xml$"};
 	
 	public static String[] APEX_STATICSOURCE_EXTENSIONS = new String[] {"[.]resource$","[.]resource-meta[.]xml$"};
